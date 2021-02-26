@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Customer>
+@{
+    ViewData["Title"] = "Customer Manager";
+}
+<head>
+    <style>
+        #customer {
+            pointer-events: none;
+            cursor: default;
+            text-decoration: none;
+            color: black;
+        }
+
+        th {
+            font-size: 25px;
+        }
+
+        td {
+            font-size:15px;
+        }
+
+        table {
+            margin-top: 10px;
+        }
+        .add{
+            color:green;
+            font-size:30px;
+            float:right;
+            margin-bottom:20px;
+        }
+        .edit{
+            color:wheat;
+            font-size:15px;
+        }
+        .delete{
+            color:orangered;
+            font-size:15px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" 
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" 
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<h1>Customer manager</h1>
+<a  asp-controller="Customer" asp-action="Add"><i class="fa fa-user-plus add"></i></a>
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>City</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (Customer customer in @Model)
+        {
+            <tr>
+                <td>@customer.FirstName  @customer.LastName</td>
+
+                <td>@customer.Email</td>
+
+                <td>@customer.City</td>
+                <td>
+                    <a asp-controller="Customer" asp-action="Edit" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug"><i class="fa fa-pencil edit"></i></a>
+                </td>
+                <td>
+                    <a asp-controller="Customer" asp-action="Delete" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug"><i class="fa fa-trash-o delete"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

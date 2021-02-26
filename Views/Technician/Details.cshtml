@@ -1,0 +1,37 @@
+﻿@model Technician
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h2>Technician Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TechnicianId" asp-route-slug="@Model.Slug">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.TechnicianId">Delete</a> |
+    <a asp-action="Manager">Back to List</a>
+</div>

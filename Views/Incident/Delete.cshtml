@@ -1,0 +1,25 @@
+﻿@model Incident
+
+@{
+    ViewData["Title"] = "Delete "+Model.Title;
+}
+<style>
+    #incident {
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        color: black;
+    }
+</style>
+
+<h2>Delete Incident</h2>
+<br />
+<h3>Are you sure you want to delete @Model.Title?</h3>
+<div>
+    <br />
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="IncidentId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Manager">Cancel</a>
+    </form>
+</div>

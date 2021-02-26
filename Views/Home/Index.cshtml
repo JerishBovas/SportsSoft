@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<style>
+    #home {
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        color: black;
+    }
+
+    .coln a {
+        text-decoration: none;
+        color: #4e4e4f;
+    }
+
+    .coln {
+        margin: auto;
+        width: 170px;
+        height: 130px;
+    }
+
+    .managelink {
+        padding: 10px;
+    }
+
+        .managelink:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            background-color: #f2f5f7;
+            border-radius:3px 4px;
+            color: black;
+        }
+</style>
+<div class="text-center">
+    <h2 class="font-weight-bold m-3">Sports JAS Technical Support</h2>
+    <h5 class="m-3">Sports Management software for the sports enthusiasts</h5>
+</div>
+<div>
+    <h3 class="my-3 text-secondary">Admin</h3>
+    <div class="row">
+        <div class="col">
+            <div class="coln">
+                <a href="/Product/Manager">
+                    <div class="text-center managelink">
+                        <img style="margin:auto;" src="/img/icons8-product-100.png" width="80" alt="Product Manager" /><br />
+                        <span>Product Manager</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="coln">
+                <a href="/Technician/Manager">
+                    <div class="text-center managelink">
+                        <img style="margin:auto;" src="/img/icons8-worker-96.png" width="80" alt="Technician Manager" /><br />
+                        <span>Technician Manager</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="coln">
+                <a href="/Customer/Manager">
+                    <div class="text-center managelink">
+                        <img style="margin:auto;" src="/img/icons8-customer-100.png" width="80" alt="Customer Manager" /><br />
+                        <span>Customer Manager</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="coln">
+                <a href="/Incident/Manager">
+                    <div class="text-center managelink">
+                        <img style="margin:auto;" src="/img/icons8-report-card-96.png" width="80" alt="Incident Manager" /><br />
+                        <span>Incident Manager</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div>
+    <h3 class="my-3 text-secondary">Technicians</h3>
+    <div class="col">
+        <div class="coln">
+            <a href="/Incident/Manager">
+                <div class="text-center managelink">
+                    <img style="margin:auto;" src="/img/icons8-update-left-rotation-96.png" width="80" alt="Update Incident" /><br />
+                    <span>Update Incident</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

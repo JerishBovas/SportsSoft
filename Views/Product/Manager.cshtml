@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Product Manager";
+}
+<style>
+    #product {
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        color: black;
+    }
+</style>
+<h1>Add new Product...</h1>
+
+<form method="post" action="">
+    <fieldset>
+        <legend>Add Product</legend>
+        <div>
+            <label>Code :</label>
+            <input name="Code" type="text"/>
+        </div>
+
+        <div>
+            <label>Product Name:</label>
+            <input name="ProductName" type="text"/>
+        </div>
+
+        <div>
+            <label>Price:</label>
+            <input name="Price" type="text"/>
+        </div>
+
+        <div>
+            <input type="submit" value="Add"/>
+        </div>
+    </fieldset>
+</form>

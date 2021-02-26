@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Technician>
+@{ ViewData["Title"] = "Technician Manager"; }
+<style>
+    #technician {
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        color: black;
+    }
+    tbody > tr:hover {
+        background-color: #daf1fc;
+    }
+    th {
+        font-size: 20px;
+    }
+    td > a {
+        text-decoration:none;
+        font-weight:bold;
+        font-size:18px;
+    }
+</style>
+
+<h1>Technician Manager</h1>
+
+<p>
+    <a class="btn btn-primary float-right" role="button" asp-action="Add">Add Technician</a>
+</p>
+<br style="clear:both" />
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Phone)
+    </td>
+    <td>
+        <a style="text-decoration:none" asp-action="Details" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Details</a> |
+        <a style="text-decoration:none" asp-action="Edit" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Edit</a> |
+        <a style="text-decoration:none" asp-action="Delete" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Delete</a>
+    </td>
+</tr>}
+    </tbody>
+</table>
