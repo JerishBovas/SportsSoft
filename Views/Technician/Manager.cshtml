@@ -20,7 +20,7 @@
     }
 </style>
 
-<h1>Technician Manager</h1>
+<h2>Technician Manager</h2>
 
 <p>
     <a class="btn btn-primary float-right" role="button" asp-action="Add">Add Technician</a>
@@ -44,21 +44,22 @@
     <tbody>
         @foreach (var item in Model)
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Email)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Phone)
-    </td>
-    <td>
-        <a style="text-decoration:none" asp-action="Details" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Details</a> |
-        <a style="text-decoration:none" asp-action="Edit" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Edit</a> |
-        <a style="text-decoration:none" asp-action="Delete" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Delete</a>
-    </td>
-</tr>}
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    <a style="text-decoration:none" asp-action="Details" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Details</a> |
+                    <a style="text-decoration:none" asp-action="Edit" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Edit</a> |
+                    <a style="text-decoration:none" asp-action="Delete" asp-route-id="@item.TechnicianId" asp-route-slug="@item.Slug">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

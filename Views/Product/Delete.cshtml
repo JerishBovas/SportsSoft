@@ -1,9 +1,10 @@
-﻿@model Customer
+﻿@model Product
+
 @{
-    ViewData["Title"] = "Delete " + Model.FirstName + " " + Model.LastName;
+    ViewData["Title"] = "Delete "+ Model.Name;
 }
 <style>
-    #customer {
+    #product {
         pointer-events: none;
         cursor: default;
         text-decoration: none;
@@ -11,14 +12,12 @@
     }
 </style>
 
-<h1>Delete Customer</h1>
+<h1>Delete Product</h1>
 
-<h3>Are you sure want to delete @Model.FirstName @Model.LastName ?</h3>
-
-
-<div>
+<h3>Are you sure you want to delete @Model.Name?</h3>
+<div>    
     <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="CustomerId" />
+        <input type="hidden" asp-for="ProductId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Manager">Cancel</a>
     </form>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SportsSoft.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,21 @@ namespace SportsSoft.Controllers
             return View(customers);
         }
 
+        public ActionResult Details(int id)
+        {
+            var customer = context.Customers
+                .Include(c => c.Country)
+                .FirstOrDefault(i => i.CustomerId == id);
+            return View(customer);
+        }
+
         [HttpGet]
         public IActionResult Add()
         {
             ViewBag.Action = "Add";
             ViewBag.Value = "Submit";
             ViewBag.Countries = context.Countries.OrderBy(c => c.CountryName).ToList();
-            return View("Add_Edit" , new Customer());
+            return View("Edit" , new Customer());
         }
 
         [HttpGet]
@@ -40,23 +49,22 @@ namespace SportsSoft.Controllers
         {
             ViewBag.Action = "Edit";
             ViewBag.Value = "Apply";
-            ViewBag.Id = id;
             ViewBag.Countries = context.Countries.OrderBy(c => c.CountryName).ToList();
 
             var customer = context.Customers
                 .Include(c => c.Country)
                 .FirstOrDefault(c => c.CustomerId == id);
-            return View("Add_Edit" , customer);
+            return View("Edit" , customer);
 
         }
 
         [HttpPost]
-        public IActionResult Add_Edit(Customer customer, int id)
+        public IActionResult Edit(Customer customer)
         {
+            string action = (customer.CustomerId == 0) ? "Add" : "Edit";
+
             if (ModelState.IsValid)
             {
-                customer.CustomerId = id;
-                string action = (customer.CustomerId == 0) ? "Add" : "Edit";
                 if (action == "Add")
                 {
                     context.Customers.Add(customer);
@@ -66,7 +74,7 @@ namespace SportsSoft.Controllers
                     context.Customers.Update(customer);
                 }
                 context.SaveChanges();
-                return RedirectToAction("Manager", "Customer");
+                return RedirectToAction("Manager");
             }
             else
             {
@@ -86,11 +94,11 @@ namespace SportsSoft.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Customer customer , int id)
+        public IActionResult Delete(Customer customer)
         {
-            context.Remove(context.Customers.Single(c => c.CustomerId == id));
+            context.Remove(context.Customers.Single(c => c.CustomerId == customer.CustomerId));
             context.SaveChanges();
-            return RedirectToAction("Manager", "Customer");
+            return RedirectToAction("Manager");
         }
     }
 }

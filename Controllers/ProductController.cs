@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using SportsSoft.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,78 +10,103 @@ namespace SportsSoft.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: ProductController
+        private SportingContext context { get; set; }
+
+        public ProductController(SportingContext ctx)
+        {
+            context = ctx;
+        }
+        
         public ActionResult Manager()
         {
-            return View();
+            var products = context.Products
+                .OrderBy(t => t.Name)
+                .ToList();
+            return View(products);
         }
 
         // GET: ProductController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var products = context.Products
+                .FirstOrDefault(i => i.ProductId == id);
+            return View(products);
         }
 
         // GET: ProductController/Create
-        public ActionResult Create()
+        public ActionResult Add()
         {
-            return View();
-        }
-
-        // POST: ProductController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            ViewBag.Action = "Add";
+            return View("Edit", new Product());
         }
 
         // GET: ProductController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ViewBag.Action = "Edit";
+
+            var product = context.Products
+                .FirstOrDefault(i => i.ProductId == id);
+            return View(product);
         }
 
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Product product)
         {
+            string action = (product.ProductId == 0) ? "Add" : "Edit";
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    if (action == "Add")
+                    {
+                        context.Products.Add(product);
+                    }
+                    else
+                    {
+                        context.Products.Update(product);
+                    }
+                    context.SaveChanges();
+                    return RedirectToAction("Manager");
+                }
+                else
+                {
+                    ViewBag.Action = action;
+                    return View(product);
+                }
             }
             catch
             {
-                return View();
+                ViewBag.Action = action;
+                return View(product);
             }
         }
 
         // GET: ProductController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var product = context.Products
+                .FirstOrDefault(i => i.ProductId == id);
+            return View(product);
         }
 
         // POST: ProductController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Product product)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                context.Remove(context.Products.Single(i => i.ProductId == product.ProductId));
+                context.SaveChanges();
+                return RedirectToAction("Manager");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Manager");
             }
         }
     }

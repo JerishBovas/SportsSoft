@@ -30,9 +30,13 @@
     .btn{
         padding:5px 30px;
     }
+    .actionbtn{
+        font-weight:bold;
+        font-size:20px;
+    }
 </style>
 
-<h2 class="ml-3 text-secondary">Incident Manager</h2>
+<h2 class="ml-3">Incident Manager</h2>
 <a class="btn btn-primary float-right" role="button" asp-action="Add"><i class="fas fa-plus"></i></a>
 <br style="clear:both"/>
 
@@ -56,17 +60,17 @@
                 <a style="text-decoration:none" asp-action="Details" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug">@incident.Title</a>
             </td>
             <td>
-                <a style="text-decoration:none" asp-action="Details" asp-route-id="@incident.CustomerId" asp-route-slug="@incident.Customer.Slug"><span>@incident.Customer.FirstName</span> <span>@incident.Customer.LastName</span></a>
+                <a style="text-decoration:none" asp-controller="Customer" asp-action="Details" asp-route-id="@incident.CustomerId" asp-route-slug="@incident.Customer.Slug"><span>@incident.Customer.FirstName</span> <span>@incident.Customer.LastName</span></a>
             </td>
             <td>
-                <a style="text-decoration:none" asp-action="Details" asp-route-id="@incident.ProductId" asp-route-slug="@incident.Product.Slug">@incident.Product.Name</a>
+                <a style="text-decoration:none" asp-controller="Product" asp-action="Details" asp-route-id="@incident.ProductId" asp-route-slug="@incident.Product.Slug">@incident.Product.Name</a>
             </td>
             <td>@incident.DateOpened</td>
             <td>
-                <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-edit"></i></a>
+                <a class="text-dark actionbtn" asp-action="Edit" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-edit"></i></a>
             </td>
             <td>
-                <a class="btn btn-primary" role="button" asp-action="Delete" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-trash-alt"></i></a>
+                <a class="text-dark actionbtn" asp-action="Delete" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>
         }
