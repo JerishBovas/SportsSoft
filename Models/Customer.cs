@@ -16,6 +16,8 @@ namespace SportsSoft.Models
         [Required(ErrorMessage = "Please enter a valid Last Name")]
         public string LastName { get; set; }
 
+        public string FullName => FirstName + " " + LastName;
+
         [Required(ErrorMessage = "Please enter a valid Address")]
         public string Address { get; set; }
 
@@ -32,7 +34,7 @@ namespace SportsSoft.Models
         public int CountryId { get; set; }
 
         public Country Country { get; set; }
-
+       
         public string Email { get; set; }
 
         public string Phone { get; set; }

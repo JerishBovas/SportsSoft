@@ -3,21 +3,14 @@
 @{
     ViewData["Title"] = "Delete "+ Model.Name;
 }
-<style>
-    #product {
-        pointer-events: none;
-        cursor: default;
-        text-decoration: none;
-        color: black;
-    }
-</style>
 
 <h1>Delete Product</h1>
 
 <h3>Are you sure you want to delete @Model.Name?</h3>
 <div>    
-    <form asp-action="Delete" method="post">
+    <form asp-action="Delete" method="post" asp-antiforgery="true">
         <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="Name" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Manager">Cancel</a>
     </form>

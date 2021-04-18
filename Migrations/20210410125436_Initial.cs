@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportsSoft.Migrations
 {
-    public partial class Sporting : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -115,6 +115,32 @@ namespace SportsSoft.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Registrations",
+                columns: table => new
+                {
+                    RegistrationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Registrations", x => x.RegistrationId);
+                    table.ForeignKey(
+                        name: "FK_Registrations_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Registrations_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "CountryId", "CountryName" },
@@ -152,10 +178,10 @@ namespace SportsSoft.Migrations
                 columns: new[] { "ProductId", "Code", "Name", "Price", "ReleaseDate" },
                 values: new object[,]
                 {
-                    { 1, "TRNY10", "Tournament Master 1.0", 4.9900000000000002, new DateTime(2021, 2, 26, 8, 20, 14, 890, DateTimeKind.Local).AddTicks(462) },
-                    { 2, "LEAG10", "League Scheduler 1.0", 4.9900000000000002, new DateTime(2021, 2, 26, 8, 20, 14, 895, DateTimeKind.Local).AddTicks(9195) },
-                    { 3, "LEAGD10", "League Scheduler Deluxe 1.0", 7.9900000000000002, new DateTime(2021, 2, 26, 8, 20, 14, 895, DateTimeKind.Local).AddTicks(9289) },
-                    { 4, "DRAFT10", "Draft Manager 1.0", 4.9900000000000002, new DateTime(2021, 2, 26, 8, 20, 14, 895, DateTimeKind.Local).AddTicks(9300) }
+                    { 1, "TRNY10", "Tournament Master 1.0", 4.9900000000000002, new DateTime(2021, 4, 10, 8, 54, 35, 367, DateTimeKind.Local).AddTicks(5553) },
+                    { 2, "LEAG10", "League Scheduler 1.0", 4.9900000000000002, new DateTime(2021, 4, 10, 8, 54, 35, 372, DateTimeKind.Local).AddTicks(8902) },
+                    { 3, "LEAGD10", "League Scheduler Deluxe 1.0", 7.9900000000000002, new DateTime(2021, 4, 10, 8, 54, 35, 372, DateTimeKind.Local).AddTicks(8979) },
+                    { 4, "DRAFT10", "Draft Manager 1.0", 4.9900000000000002, new DateTime(2021, 4, 10, 8, 54, 35, 372, DateTimeKind.Local).AddTicks(8990) }
                 });
 
             migrationBuilder.InsertData(
@@ -185,10 +211,21 @@ namespace SportsSoft.Migrations
                 columns: new[] { "IncidentId", "CustomerId", "DateClosed", "DateOpened", "Description", "ProductId", "TechnicianId", "Title" },
                 values: new object[,]
                 {
-                    { 2, 4, null, new DateTime(2021, 2, 26, 8, 20, 14, 897, DateTimeKind.Local).AddTicks(183), "League Schedule is not installing and giving error", 2, 3, "Unable to Install" },
-                    { 3, 2, null, new DateTime(2021, 2, 26, 8, 20, 14, 897, DateTimeKind.Local).AddTicks(227), "League Scheduler Deluxe is giving error importing data error", 3, 4, "Error Importing Data" },
-                    { 4, 2, null, new DateTime(2021, 2, 26, 8, 20, 14, 897, DateTimeKind.Local).AddTicks(234), "While Trying to launch tournament master, it crashes", 1, 3, "Error Launching Program" },
-                    { 1, 3, null, new DateTime(2021, 2, 26, 8, 20, 14, 896, DateTimeKind.Local).AddTicks(8680), "While Trying to install Draft manager it didnt install", 4, 1, "Could Not Install" }
+                    { 2, 4, null, new DateTime(2021, 4, 10, 8, 54, 35, 374, DateTimeKind.Local).AddTicks(4), "League Schedule is not installing and giving error", 2, 3, "Unable to Install" },
+                    { 3, 2, null, new DateTime(2021, 4, 10, 8, 54, 35, 374, DateTimeKind.Local).AddTicks(48), "League Scheduler Deluxe is giving error importing data error", 3, 4, "Error Importing Data" },
+                    { 4, 2, null, new DateTime(2021, 4, 10, 8, 54, 35, 374, DateTimeKind.Local).AddTicks(55), "While Trying to launch tournament master, it crashes", 1, 3, "Error Launching Program" },
+                    { 1, 3, null, new DateTime(2021, 4, 10, 8, 54, 35, 373, DateTimeKind.Local).AddTicks(7429), "While Trying to install Draft manager it didnt install", 4, 1, "Could Not Install" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Registrations",
+                columns: new[] { "RegistrationId", "CustomerId", "ProductId" },
+                values: new object[,]
+                {
+                    { 3, 4, 1 },
+                    { 2, 2, 2 },
+                    { 1, 3, 2 },
+                    { 4, 3, 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -210,6 +247,16 @@ namespace SportsSoft.Migrations
                 name: "IX_Incidents_TechnicianId",
                 table: "Incidents",
                 column: "TechnicianId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Registrations_CustomerId",
+                table: "Registrations",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Registrations_ProductId",
+                table: "Registrations",
+                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -218,13 +265,16 @@ namespace SportsSoft.Migrations
                 name: "Incidents");
 
             migrationBuilder.DropTable(
+                name: "Registrations");
+
+            migrationBuilder.DropTable(
+                name: "Technicians");
+
+            migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Technicians");
 
             migrationBuilder.DropTable(
                 name: "Countries");

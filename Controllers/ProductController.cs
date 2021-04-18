@@ -16,8 +16,9 @@ namespace SportsSoft.Controllers
         {
             context = ctx;
         }
-        
-        public ActionResult Manager()
+
+        [Route("Products")]
+        public ViewResult Manager()
         {
             var products = context.Products
                 .OrderBy(t => t.Name)
@@ -25,23 +26,20 @@ namespace SportsSoft.Controllers
             return View(products);
         }
 
-        // GET: ProductController/Details/5
-        public ActionResult Details(int id)
+        public ViewResult Details(int id)
         {
             var products = context.Products
                 .FirstOrDefault(i => i.ProductId == id);
             return View(products);
         }
 
-        // GET: ProductController/Create
-        public ActionResult Add()
+        public ViewResult Add()
         {
             ViewBag.Action = "Add";
             return View("Edit", new Product());
         }
 
-        // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
             ViewBag.Action = "Edit";
 
@@ -50,7 +48,6 @@ namespace SportsSoft.Controllers
             return View(product);
         }
 
-        // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Product product)
@@ -70,6 +67,7 @@ namespace SportsSoft.Controllers
                         context.Products.Update(product);
                     }
                     context.SaveChanges();
+                    TempData["message"] = $"\"{product.Name}\" Product is {action}ed Successfully";
                     return RedirectToAction("Manager");
                 }
                 else
@@ -85,27 +83,27 @@ namespace SportsSoft.Controllers
             }
         }
 
-        // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
+        public ViewResult Delete(int id)
         {
             var product = context.Products
                 .FirstOrDefault(i => i.ProductId == id);
             return View(product);
         }
 
-        // POST: ProductController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Product product)
+        public RedirectToActionResult Delete(Product product)
         {
             try
             {
                 context.Remove(context.Products.Single(i => i.ProductId == product.ProductId));
                 context.SaveChanges();
+                TempData["message"] = $"\"{product.Name}\" Product is Deleted Successfully";
                 return RedirectToAction("Manager");
             }
             catch
             {
+                TempData["message"] = $"\"{product.Name}\" Product Deletion Failed";
                 return RedirectToAction("Manager");
             }
         }

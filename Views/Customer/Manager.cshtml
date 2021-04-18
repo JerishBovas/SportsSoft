@@ -3,44 +3,18 @@
     ViewData["Title"] = "Customer Manager";
 }
 <style>
-    #customer {
-        pointer-events: none;
-        cursor: default;
-        text-decoration: none;
-        color: black;
-    }
-
-    th {
-        font-size: 25px;
-    }
-
-    td {
-        font-size:15px;
-    }
-
-    table {
-        margin-top: 10px;
-    }
-    .add{
-        color:green;
-        font-size:30px;
-        float:right;
-        margin-bottom:20px;
-    }
-    .edit{
-        color:wheat;
-        font-size:15px;
-    }
-    .delete{
-        color:orangered;
-        font-size:15px;
+    tbody > tr:hover {
+        background-color: #daf1fc;
     }
 </style>
 
-<h2>Customer manager</h2>
-<a asp-action="Add"><i class="fa fa-user-plus add"></i></a>
+<h2 class="float-left">Customer Manager</h2>
 
-<table class="table">
+<p>
+    <a class="btn btn-primary float-right" role="button" asp-action="Add">Add Customer</a>
+</p>
+<br style="clear:both" />
+<table class="table mt-3">
     <thead>
         <tr>
             <th>Name</th>
@@ -52,21 +26,21 @@
     </thead>
 
     <tbody>
-        @foreach (Customer customer in Model)
+       @foreach (Customer customer in Model)
         {
             <tr>
                 <td>
-                    <a style="text-decoration:none" asp-action="Details" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug">@customer.FirstName  @customer.LastName</a>
+                    <a style="text-decoration:none" asp-action="Details" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug">@customer.FullName</a>
                 </td>
 
                 <td>@customer.Email</td>
 
                 <td>@customer.City</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug"><i class="fa fa-pencil edit"></i></a>
+                    <a class="text-secondary" asp-action="Edit" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug"><i class="fa fa-trash-o delete"></i></a>
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@customer.CustomerId" asp-route-slug="@customer.Slug"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         }

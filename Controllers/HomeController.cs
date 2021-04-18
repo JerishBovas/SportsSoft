@@ -10,7 +10,13 @@ namespace SportsSoft.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public ViewResult Index()
+        {
+            return View();
+        }
+
+        [Route("About")]
+        public ViewResult About()
         {
             return View();
         }

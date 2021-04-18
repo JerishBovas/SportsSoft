@@ -1,21 +1,13 @@
 ﻿@model Customer
 
 @{
-    ViewData["Title"] = Model.FirstName + " " + Model.LastName;
+    ViewData["Title"] = Model.FullName;
 }
-<style>
-    #customer {
-        pointer-events: none;
-        cursor: default;
-        text-decoration: none;
-        color: black;
-    }
-</style>
 
 <h2>Customer Details</h2>
 
 <div>
-    <h4>@Model.FirstName @Model.LastName</h4>
+    <h4>@Model.FullName</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">

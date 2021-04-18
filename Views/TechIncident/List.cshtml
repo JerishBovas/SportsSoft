@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Incident>
+@{
+    ViewData["Title"] = "List Incidents";
+}
+
+<h2 style="display:inline">Technician: @ViewBag.Technician.Name</h2>
+<a class="btn btn-primary float-right" role="button" asp-action="Get">Switch Technician</a>
+<br />
+<br />
+<h3>Assigned/Open Incidents</h3>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Customer
+            </th>
+            <th>
+                Product
+            </th>
+            <th>
+                Date Opened
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Customer.FullName
+                </td>
+                <td>
+                    @item.Product.Name
+                </td>
+                <td>
+                    @item.DateOpened
+                </td>
+                <td>
+                    <a class="text-secondary" asp-action="Edit" asp-route-id="@item.IncidentId" asp-route-slug="@item.Slug"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

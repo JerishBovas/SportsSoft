@@ -3,20 +3,12 @@
 @{
     ViewData["Title"] = ViewBag.Action + " Technician";
 }
-<style>
-    #technician {
-        pointer-events: none;
-        cursor: default;
-        text-decoration: none;
-        color: black;
-    }
-</style>
 
 <h2>@ViewBag.Action Technician</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" asp-antiforgery="true">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TechnicianId" />
             <div class="form-group">

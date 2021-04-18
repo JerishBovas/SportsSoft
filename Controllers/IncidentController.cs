@@ -1,6 +1,7 @@
 ﻿using SportsSoft.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,50 @@ namespace SportsSoft.Controllers
             context = ctx;
         }
 
-        public IActionResult Manager()
+        [Route("Incidents")]
+        public ViewResult Manager(string Filter = "")
         {
-            var incidents = context.Incidents
+            IncidentListViewModel vm = new IncidentListViewModel();
+            
+            if(Filter == "unassigned")
+            {
+                vm.Incidents = context.Incidents
+                .Include(i => i.Customer)
+                .Include(i => i.Product)
+                .Where(i => i.Technician == null)
+                .OrderBy(i => i.IncidentId)
+                .ToList();
+                ViewBag.All = "";
+                ViewBag.Un = "active";
+                ViewBag.Open = "";
+            }
+            else if(Filter == "openincident")
+            {
+                vm.Incidents = context.Incidents
+                .Include(i => i.Customer)
+                .Include(i => i.Product)
+                .Where(i => i.DateClosed == null)
+                .OrderBy(i => i.IncidentId)
+                .ToList();
+                ViewBag.All = "";
+                ViewBag.Un = "";
+                ViewBag.Open = "active";
+            }
+            else
+            {
+                vm.Incidents = context.Incidents
                 .Include(i => i.Customer)
                 .Include(i => i.Product)
                 .OrderBy(i => i.IncidentId)
                 .ToList();
-            return View(incidents);
+                ViewBag.All = "active";
+                ViewBag.Un = "";
+                ViewBag.Open = "";
+            }
+            return View(vm);
         }
 
-        public ActionResult Details(int id)
+        public ViewResult Details(int id)
         {
             var incident = context.Incidents
                 .Include(i => i.Customer)
@@ -39,29 +73,32 @@ namespace SportsSoft.Controllers
         }
 
         [HttpGet]
-        public ActionResult Add()
+        public ViewResult Add()
         {
-            ViewBag.Action = "Add";
-            ViewBag.Products = context.Products.OrderBy(c => c.Name).ToList();
-            ViewBag.Customers = context.Customers.OrderBy(c => c.FirstName).ToList();
-            ViewBag.Technicians = context.Technicians.OrderBy(c => c.Name).ToList();
-            return View("Edit", new Incident());
+            IncidentEditViewModel vm = new IncidentEditViewModel();
+            vm.Action = "Add";
+            vm.Products = new SelectList(context.Products.OrderBy(c => c.Name).ToList(), "ProductId", "Name");
+            vm.Customers = new SelectList(context.Customers.OrderBy(c => c.FirstName).ToList(), "CustomerId", "FirstName");
+            vm.Technicians = new SelectList(context.Technicians.OrderBy(c => c.Name).ToList(), "TechnicianId", "Name");
+            vm.Incident = new Incident();
+            return View("Edit", vm);
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
-            ViewBag.Action = "Edit";
-            ViewBag.Products = context.Products.OrderBy(c => c.Name).ToList();
-            ViewBag.Customers = context.Customers.OrderBy(c => c.FirstName).ToList();
-            ViewBag.Technicians = context.Technicians.OrderBy(c => c.Name).ToList();
+            IncidentEditViewModel vm = new IncidentEditViewModel();
+            vm.Action = "Add";
+            vm.Products = new SelectList(context.Products.OrderBy(c => c.Name).ToList(), "ProductId", "Name");
+            vm.Customers = new SelectList(context.Customers.OrderBy(c => c.FirstName).ToList(), "CustomerId", "FullName");
+            vm.Technicians = new SelectList(context.Technicians.OrderBy(c => c.Name).ToList(), "TechnicianId", "Name");
 
-            var incident = context.Incidents
+            vm.Incident = context.Incidents
                 .Include(i => i.Customer)
                 .Include(i => i.Product)
                 .Include(i => i.Technician)
                 .FirstOrDefault(i => i.IncidentId == id);
-            return View(incident);
+            return View(vm);
         }
 
         [HttpPost]
@@ -87,29 +124,34 @@ namespace SportsSoft.Controllers
                         context.Incidents.Update(incident);
                     }
                     context.SaveChanges();
+                    TempData["message"] = $"\"{incident.Title}\" incident is {action}ed Successfully";
                     return RedirectToAction("Manager");
                 }
                 else
                 {
-                    ViewBag.Action = action;
-                    ViewBag.Products = context.Products.OrderBy(c => c.Name).ToList();
-                    ViewBag.Customers = context.Customers.OrderBy(c => c.FirstName).ToList();
-                    ViewBag.Technicians = context.Technicians.OrderBy(c => c.Name).ToList();
-                    return View(incident);
+                    IncidentEditViewModel vm = new IncidentEditViewModel();
+                    vm.Action = action;
+                    vm.Products = new SelectList(context.Products.OrderBy(c => c.Name).ToList(), "ProductId", "Name");
+                    vm.Customers = new SelectList(context.Customers.OrderBy(c => c.FirstName).ToList(), "CustomerId", "FullName");
+                    vm.Technicians = new SelectList(context.Technicians.OrderBy(c => c.Name).ToList(), "TechnicianId", "Name");
+                    vm.Incident = incident;
+                    return View(vm);
                 }
             }
             catch
             {
-                ViewBag.Action = action;
-                ViewBag.Products = context.Products.OrderBy(c => c.Name).ToList();
-                ViewBag.Customers = context.Customers.OrderBy(c => c.FirstName).ToList();
-                ViewBag.Technicians = context.Technicians.OrderBy(c => c.Name).ToList();
-                return View(incident);
+                IncidentEditViewModel vm = new IncidentEditViewModel();
+                vm.Action = action;
+                vm.Products = new SelectList(context.Products.OrderBy(c => c.Name).ToList(), "ProductId", "Name");
+                vm.Customers = new SelectList(context.Customers.OrderBy(c => c.FirstName).ToList(), "CustomerId", "FullName");
+                vm.Technicians = new SelectList(context.Technicians.OrderBy(c => c.Name).ToList(), "TechnicianId", "Name");
+                vm.Incident = incident;
+                return View(vm);
             }
         }
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ViewResult Delete(int id)
         {
             var incident = context.Incidents
                 .FirstOrDefault(i => i.IncidentId == id);
@@ -118,16 +160,18 @@ namespace SportsSoft.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Incident incident)
+        public RedirectToActionResult Delete(Incident incident)
         {
             try
             {
                 context.Remove(context.Incidents.Single(i => i.IncidentId == incident.IncidentId));
                 context.SaveChanges();
+                TempData["message"] = $"\"{incident.Title}\" incident is Deleted Successfully";
                 return RedirectToAction("Manager");
             }
             catch
             {
+                TempData["message"] = $"\"{incident.Title}\" incident deletion Failed";
                 return RedirectToAction("Manager");
             }
         }

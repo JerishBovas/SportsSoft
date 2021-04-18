@@ -10,15 +10,15 @@ using SportsSoft.Models;
 namespace SportsSoft.Migrations
 {
     [DbContext(typeof(SportingContext))]
-    [Migration("20210226132016_Sporting")]
-    partial class Sporting
+    [Migration("20210410125436_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("SportsSoft.Models.Country", b =>
@@ -309,7 +309,7 @@ namespace SportsSoft.Migrations
                         {
                             IncidentId = 1,
                             CustomerId = 3,
-                            DateOpened = new DateTime(2021, 2, 26, 8, 20, 14, 896, DateTimeKind.Local).AddTicks(8680),
+                            DateOpened = new DateTime(2021, 4, 10, 8, 54, 35, 373, DateTimeKind.Local).AddTicks(7429),
                             Description = "While Trying to install Draft manager it didnt install",
                             ProductId = 4,
                             TechnicianId = 1,
@@ -319,7 +319,7 @@ namespace SportsSoft.Migrations
                         {
                             IncidentId = 2,
                             CustomerId = 4,
-                            DateOpened = new DateTime(2021, 2, 26, 8, 20, 14, 897, DateTimeKind.Local).AddTicks(183),
+                            DateOpened = new DateTime(2021, 4, 10, 8, 54, 35, 374, DateTimeKind.Local).AddTicks(4),
                             Description = "League Schedule is not installing and giving error",
                             ProductId = 2,
                             TechnicianId = 3,
@@ -329,7 +329,7 @@ namespace SportsSoft.Migrations
                         {
                             IncidentId = 3,
                             CustomerId = 2,
-                            DateOpened = new DateTime(2021, 2, 26, 8, 20, 14, 897, DateTimeKind.Local).AddTicks(227),
+                            DateOpened = new DateTime(2021, 4, 10, 8, 54, 35, 374, DateTimeKind.Local).AddTicks(48),
                             Description = "League Scheduler Deluxe is giving error importing data error",
                             ProductId = 3,
                             TechnicianId = 4,
@@ -339,7 +339,7 @@ namespace SportsSoft.Migrations
                         {
                             IncidentId = 4,
                             CustomerId = 2,
-                            DateOpened = new DateTime(2021, 2, 26, 8, 20, 14, 897, DateTimeKind.Local).AddTicks(234),
+                            DateOpened = new DateTime(2021, 4, 10, 8, 54, 35, 374, DateTimeKind.Local).AddTicks(55),
                             Description = "While Trying to launch tournament master, it crashes",
                             ProductId = 1,
                             TechnicianId = 3,
@@ -379,7 +379,7 @@ namespace SportsSoft.Migrations
                             Code = "TRNY10",
                             Name = "Tournament Master 1.0",
                             Price = 4.9900000000000002,
-                            ReleaseDate = new DateTime(2021, 2, 26, 8, 20, 14, 890, DateTimeKind.Local).AddTicks(462)
+                            ReleaseDate = new DateTime(2021, 4, 10, 8, 54, 35, 367, DateTimeKind.Local).AddTicks(5553)
                         },
                         new
                         {
@@ -387,7 +387,7 @@ namespace SportsSoft.Migrations
                             Code = "LEAG10",
                             Name = "League Scheduler 1.0",
                             Price = 4.9900000000000002,
-                            ReleaseDate = new DateTime(2021, 2, 26, 8, 20, 14, 895, DateTimeKind.Local).AddTicks(9195)
+                            ReleaseDate = new DateTime(2021, 4, 10, 8, 54, 35, 372, DateTimeKind.Local).AddTicks(8902)
                         },
                         new
                         {
@@ -395,7 +395,7 @@ namespace SportsSoft.Migrations
                             Code = "LEAGD10",
                             Name = "League Scheduler Deluxe 1.0",
                             Price = 7.9900000000000002,
-                            ReleaseDate = new DateTime(2021, 2, 26, 8, 20, 14, 895, DateTimeKind.Local).AddTicks(9289)
+                            ReleaseDate = new DateTime(2021, 4, 10, 8, 54, 35, 372, DateTimeKind.Local).AddTicks(8979)
                         },
                         new
                         {
@@ -403,7 +403,55 @@ namespace SportsSoft.Migrations
                             Code = "DRAFT10",
                             Name = "Draft Manager 1.0",
                             Price = 4.9900000000000002,
-                            ReleaseDate = new DateTime(2021, 2, 26, 8, 20, 14, 895, DateTimeKind.Local).AddTicks(9300)
+                            ReleaseDate = new DateTime(2021, 4, 10, 8, 54, 35, 372, DateTimeKind.Local).AddTicks(8990)
+                        });
+                });
+
+            modelBuilder.Entity("SportsSoft.Models.Registration", b =>
+                {
+                    b.Property<int>("RegistrationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RegistrationId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Registrations");
+
+                    b.HasData(
+                        new
+                        {
+                            RegistrationId = 1,
+                            CustomerId = 3,
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            RegistrationId = 2,
+                            CustomerId = 2,
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            RegistrationId = 3,
+                            CustomerId = 4,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            RegistrationId = 4,
+                            CustomerId = 3,
+                            ProductId = 3
                         });
                 });
 
@@ -495,6 +543,25 @@ namespace SportsSoft.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Technician");
+                });
+
+            modelBuilder.Entity("SportsSoft.Models.Registration", b =>
+                {
+                    b.HasOne("SportsSoft.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SportsSoft.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

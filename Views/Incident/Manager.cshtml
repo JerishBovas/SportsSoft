@@ -1,46 +1,32 @@
-﻿@model IEnumerable<Incident>
-@{ ViewData["Title"] = "Incident Manager"; }
+﻿@model IncidentListViewModel
+@{ 
+    ViewData["Title"] = "Incident Manager";
+}
 <style>
-    #incident {
-        pointer-events: none;
-        cursor: default;
-        text-decoration: none;
-        color: black;
-    }
-    table{
-        width:100%;
-    }
-    th,td{
-        padding:0.5em;
-    }
-    tr {
-        border-bottom: .5px solid #e1e2e3;
-    }
-    thead > tr{
-        margin-top:20px;
-    }
-    th{
-        margin-top:10px;
-        padding:15px;
-        font-size:20px;
-    }
     tbody > tr:hover {
         background-color: #daf1fc;
     }
-    .btn{
-        padding:5px 30px;
-    }
-    .actionbtn{
-        font-weight:bold;
-        font-size:20px;
-    }
 </style>
+<h2 class="float-left">Incident Manager</h2>
 
-<h2 class="ml-3">Incident Manager</h2>
-<a class="btn btn-primary float-right" role="button" asp-action="Add"><i class="fas fa-plus"></i></a>
-<br style="clear:both"/>
+<p>
+    <a class="btn btn-primary float-right" role="button" asp-action="Add">Add Incident</a>
+</p>
+<br style="clear:both" />
 
-<table>
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link @ViewBag.All" asp-route-filter="All">All Incidents</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ViewBag.Un" asp-route-filter="unassigned">Unassigned Incidents</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ViewBag.Open" asp-route-filter="openincident">Open Incidents</a>
+    </li>
+</ul>
+
+<table class="table mt-3">
     <thead>
         <tr>
             <th>Title</th>
@@ -53,26 +39,26 @@
     </thead>
 
     <tbody>
-        @foreach (Incident incident in Model)
+        @foreach (Incident incident in Model.Incidents)
         {
-        <tr>
-            <td>
-                <a style="text-decoration:none" asp-action="Details" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug">@incident.Title</a>
-            </td>
-            <td>
-                <a style="text-decoration:none" asp-controller="Customer" asp-action="Details" asp-route-id="@incident.CustomerId" asp-route-slug="@incident.Customer.Slug"><span>@incident.Customer.FirstName</span> <span>@incident.Customer.LastName</span></a>
-            </td>
-            <td>
-                <a style="text-decoration:none" asp-controller="Product" asp-action="Details" asp-route-id="@incident.ProductId" asp-route-slug="@incident.Product.Slug">@incident.Product.Name</a>
-            </td>
-            <td>@incident.DateOpened</td>
-            <td>
-                <a class="text-dark actionbtn" asp-action="Edit" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-edit"></i></a>
-            </td>
-            <td>
-                <a class="text-dark actionbtn" asp-action="Delete" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-trash-alt"></i></a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <a style="text-decoration:none" asp-action="Details" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug">@incident.Title</a>
+                </td>
+                <td>
+                    <a style="text-decoration:none" asp-controller="Customer" asp-action="Details" asp-route-id="@incident.CustomerId" asp-route-slug="@incident.Customer.Slug">@incident.Customer.FullName</a>
+                </td>
+                <td>
+                    <a style="text-decoration:none" asp-controller="Product" asp-action="Details" asp-route-id="@incident.ProductId" asp-route-slug="@incident.Product.Slug">@incident.Product.Name</a>
+                </td>
+                <td>@incident.DateOpened</td>
+                <td>
+                    <a class="text-secondary" asp-action="Edit" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-edit"></i></a>
+                </td>
+                <td>
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SportsSoft.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +15,7 @@ namespace SportsSoft.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Incident> Incidents { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -204,6 +204,32 @@ namespace SportsSoft.Models
                     Title = "Error Launching Program",
                     Description = "While Trying to launch tournament master, it crashes",
                     DateOpened = DateTime.Now
+                }
+            );
+            modelBuilder.Entity<Registration>().HasData(
+                new Registration
+                {
+                    RegistrationId = 1,
+                    CustomerId = 3,
+                    ProductId = 2
+                },
+                new Registration
+                {
+                    RegistrationId = 2,
+                    CustomerId = 2,
+                    ProductId = 2
+                },
+                new Registration
+                {
+                    RegistrationId = 3,
+                    CustomerId = 4,
+                    ProductId = 1
+                },
+                new Registration
+                {
+                    RegistrationId = 4,
+                    CustomerId = 3,
+                    ProductId = 3
                 }
             );
         }

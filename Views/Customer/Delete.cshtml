@@ -1,24 +1,18 @@
 ﻿@model Customer
 @{
-    ViewData["Title"] = "Delete " + Model.FirstName + " " + Model.LastName;
+    ViewData["Title"] = "Delete " + Model.FullName;
 }
-<style>
-    #customer {
-        pointer-events: none;
-        cursor: default;
-        text-decoration: none;
-        color: black;
-    }
-</style>
 
 <h1>Delete Customer</h1>
 
-<h3>Are you sure want to delete @Model.FirstName @Model.LastName ?</h3>
+<h3>Are you sure want to delete @Model.FullName ?</h3>
 
 
 <div>
-    <form asp-action="Delete" method="post">
+    <form asp-action="Delete" method="post" asp-antiforgery="true">
         <input type="hidden" asp-for="CustomerId" />
+        <input type="hidden" asp-for="FirstName" />
+        <input type="hidden" asp-for="LastName" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Manager">Cancel</a>
     </form>

@@ -17,8 +17,9 @@ namespace SportsSoft.Controllers
         {
             context = ctx;
         }
-        
-        public ActionResult Manager()
+
+        [Route("Technicians")]
+        public ViewResult Manager()
         {
             var technician = context.Technicians
                 .OrderBy(t => t.Name)
@@ -27,7 +28,7 @@ namespace SportsSoft.Controllers
         }
 
         
-        public ActionResult Details(int id)
+        public ViewResult Details(int id)
         {
             var technician = context.Technicians
                 .FirstOrDefault(i => i.TechnicianId == id);
@@ -35,14 +36,14 @@ namespace SportsSoft.Controllers
         }
 
         
-        public ActionResult Add()
+        public ViewResult Add()
         {
             ViewBag.Action = "Add";
             return View("Edit", new Technician());
         }
 
         
-        public ActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
             ViewBag.Action = "Edit";
 
@@ -71,6 +72,7 @@ namespace SportsSoft.Controllers
                         context.Technicians.Update(technician);
                     }
                     context.SaveChanges();
+                    TempData["message"] = $"\"{technician.Name}\" Technician is {action}ed Successfully";
                     return RedirectToAction("Manager");
                 }
                 else
@@ -86,27 +88,27 @@ namespace SportsSoft.Controllers
             }
         }
 
-        // GET: TechnicianController/Delete/5
-        public ActionResult Delete(int id)
+        public ViewResult Delete(int id)
         {
             var technician = context.Technicians
                 .FirstOrDefault(i => i.TechnicianId == id);
             return View(technician);
         }
 
-        // POST: TechnicianController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Technician technician)
+        public RedirectToActionResult Delete(Technician technician)
         {
             try
             {
                 context.Remove(context.Technicians.Single(i => i.TechnicianId == technician.TechnicianId));
                 context.SaveChanges();
+                TempData["message"] = $"\"{technician.Name}\" Technician is Deleted Successfully";
                 return RedirectToAction("Manager");
             }
             catch
             {
+                TempData["message"] = $"\"{technician.Name}\" Technician Deletion Failed";
                 return RedirectToAction("Manager");
             }
         }

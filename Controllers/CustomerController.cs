@@ -1,8 +1,8 @@
 ﻿using SportsSoft.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SportsSoft.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,9 @@ namespace SportsSoft.Controllers
         {
             context = ctxt;
         }
-        public IActionResult Manager()
+
+        [Route("Customers")]
+        public ViewResult Manager()
         {
             var customers = context.Customers
                 .Include(c => c.Country)
@@ -27,7 +29,7 @@ namespace SportsSoft.Controllers
             return View(customers);
         }
 
-        public ActionResult Details(int id)
+        public ViewResult Details(int id)
         {
             var customer = context.Customers
                 .Include(c => c.Country)
@@ -36,20 +38,21 @@ namespace SportsSoft.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public ViewResult Add()
         {
             ViewBag.Action = "Add";
             ViewBag.Value = "Submit";
-            ViewBag.Countries = context.Countries.OrderBy(c => c.CountryName).ToList();
+            List<Country> CountryList= context.Countries.OrderBy(c => c.CountryName).ToList();
+            ViewBag.Countries = new SelectList(CountryList, "CountryId", "CountryName");
             return View("Edit" , new Customer());
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
             ViewBag.Action = "Edit";
             ViewBag.Value = "Apply";
-            ViewBag.Countries = context.Countries.OrderBy(c => c.CountryName).ToList();
+            ViewBag.Countries = new SelectList(context.Countries.OrderBy(c => c.CountryName).ToList(), "CountryId", "CountryName");
 
             var customer = context.Customers
                 .Include(c => c.Country)
@@ -59,6 +62,7 @@ namespace SportsSoft.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Customer customer)
         {
             string action = (customer.CustomerId == 0) ? "Add" : "Edit";
@@ -74,18 +78,19 @@ namespace SportsSoft.Controllers
                     context.Customers.Update(customer);
                 }
                 context.SaveChanges();
+                TempData["message"] = $"\"{customer.FullName}\" customer is {action}ed Successfully";
                 return RedirectToAction("Manager");
             }
             else
             {
                 ViewBag.Action = "Add";
-                ViewBag.Countries = context.Countries.OrderBy(c => c.CountryName).ToList();
+                ViewBag.Countries = new SelectList(context.Countries.OrderBy(c => c.CountryName).ToList(), "CountryId", "CountryName");
                 return View(customer);
             }
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public ViewResult Delete(int id)
         {
             var customer = context.Customers
                 .Include(c => c.Country)
@@ -94,10 +99,12 @@ namespace SportsSoft.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Customer customer)
+        [ValidateAntiForgeryToken]
+        public RedirectToActionResult Delete(Customer customer)
         {
             context.Remove(context.Customers.Single(c => c.CustomerId == customer.CustomerId));
             context.SaveChanges();
+            TempData["message"] = $"\"{customer.FirstName} {customer.LastName}\" customer is deleted successfully";
             return RedirectToAction("Manager");
         }
     }

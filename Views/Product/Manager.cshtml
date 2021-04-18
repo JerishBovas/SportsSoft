@@ -4,28 +4,11 @@
     ViewData["Title"] = "Product Manager";
 }
 <style>
-    #product {
-        pointer-events: none;
-        cursor: default;
-        text-decoration: none;
-        color: black;
-    }
-
     tbody > tr:hover {
         background-color: #daf1fc;
     }
-
-    th {
-        font-size: 20px;
-    }
-
-    td > a {
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 18px;
-    }
 </style>
-<h2>Product Manager</h2>
+<h2 class="float-left">Product Manager</h2>
 
 <p>
     <a class="btn btn-primary float-right" role="button" asp-action="Add">Add Product</a>
@@ -47,17 +30,18 @@
                 @Html.DisplayNameFor(model => model.ReleaseDate)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+       @foreach (var item in Model)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    <a style="text-decoration:none" asp-action="Details" asp-route-id="@item.ProductId" asp-route-slug="@item.Slug">@Html.DisplayFor(modelItem => item.Name)</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -66,9 +50,10 @@
                     @Html.DisplayFor(modelItem => item.ReleaseDate)
                 </td>
                 <td>
-                    <a style="text-decoration:none" asp-action="Details" asp-route-id="@item.ProductId" asp-route-slug="@item.Slug">Details</a> |
-                    <a style="text-decoration:none" asp-action="Edit" asp-route-id="@item.ProductId" asp-route-slug="@item.Slug">Edit</a> |
-                    <a style="text-decoration:none" asp-action="Delete" asp-route-id="@item.ProductId" asp-route-slug="@item.Slug">Delete</a>
+                    <a class="text-secondary" asp-action="Edit" asp-route-id="@item.ProductId" asp-route-slug="@item.Slug"><i class="fas fa-edit"></i></a>
+                </td>
+                <td>
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.ProductId" asp-route-slug="@item.Slug"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         }
