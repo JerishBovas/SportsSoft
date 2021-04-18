@@ -26,8 +26,12 @@
             <a href="/" class="navbar-brand">
                 <h1 class="m-auto" style="font-family:cursive;">SPORTS SOFT</h1>
             </a>
-            <ul class="navbar-nav" style="margin:auto">
-                <li class="nav-item">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav navbar-collapse">
+                <li class="nav-item ml-auto">
                     <a class="nav-link @ActiveNav("Product")" href="/Products"><h5 class="m-auto">Products</h5></a>
                 </li>
                 <li class="nav-item">
@@ -41,11 +45,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @ActiveNav("Registration")" href="/Registrations"><h5 class="m-auto">Registrations</h5></a>
-                </li>
-            </ul>
-            <ul class="navbar-nav"  style="margin-left:auto">
-                <li class="nav-item">
-                    <a class="nav-link @ActiveNav("About")" href="/About"><h5 class="m-auto">About</h5></a>
                 </li>
             </ul>
 
@@ -68,7 +67,9 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Jerish Bradly Bovas
+            <span>Sports Soft - <a class="text-decoration-none text-muted" href="/About">About</a></span>
+            <span class="float-right">&copy; 2021 - <a class="text-decoration-none text-muted" href="https://www.jerishbradly.com">Jerish Bradly Bovas</a></span>
+
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
